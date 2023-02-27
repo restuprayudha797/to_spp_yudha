@@ -7,6 +7,16 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Admin_model', 'am');
+
+        if (!$this->session->userdata('id_petugas')) {
+
+            redirect('auth');
+        } else {
+            $petugas = $this->db->get_where('petugas', ['id_petugas' => $this->session->userdata('id_petugas')])->row_array();
+            if ($petugas['level'] == 'petugas') {
+                redirect('petugas');
+            }
+        }
     }
 
     // ==================================================================================================================================================
